@@ -27,7 +27,7 @@ export function registerGenerateMusic(server: McpServer, config: ServerConfig): 
     async (params) => {
       const task = await apiRequest(config, {
         method: 'POST',
-        path: '/v1/music/generations',
+        path: '/v1/audios/generations',
         body: params as Record<string, unknown>,
       });
 
