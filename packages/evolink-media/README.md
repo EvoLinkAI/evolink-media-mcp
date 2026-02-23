@@ -41,11 +41,11 @@ Add to your MCP settings:
 
 | Tool | Description |
 |------|-------------|
-| `generate_image` | Generate AI images (returns result directly) |
-| `generate_video` | Generate AI videos (returns task_id for async polling) |
-| `generate_music` | Generate AI music (returns task_id for async polling) |
-| `list_models` | List available models with pricing |
-| `estimate_cost` | Estimate generation cost |
+| `generate_image` | Generate AI images (returns task_id, use check_task to poll) |
+| `generate_video` | Generate AI videos (returns task_id, use check_task to poll) |
+| `generate_music` | Generate AI music (returns task_id, use check_task to poll) |
+| `list_models` | List available models with features |
+| `estimate_cost` | Get model info |
 | `check_task` | Check async task status and results |
 
 ## Supported Models
@@ -58,7 +58,7 @@ Add to your MCP settings:
 
 ### Image
 - **gpt-4o-image** — Best quality and prompt understanding
-- **nano-banana-pro** — Great quality-cost ratio
+- **nano-banana-pro** — Great quality, versatile
 - **z-image-turbo** — Ultra-fast generation
 - **seedream-4-5** — Photorealistic
 - **qwen-image-edit** — Instruction-based editing

@@ -10,7 +10,7 @@ const schema = {
 export function registerListModels(server: McpServer): void {
   server.tool(
     'list_models',
-    'List available AI models with pricing and features. Use to help users choose the right model.',
+    'List available AI models with features. Use to help users choose the right model.',
     schema,
     async (params) => {
       const models = getModelsByCategory(params.category);
@@ -18,14 +18,13 @@ export function registerListModels(server: McpServer): void {
       const lines = models.map(m => [
         `**${m.name}** [${m.category}]`,
         `  ${m.description}`,
-        `  Pricing: $${m.pricing.cost}/${m.pricing.unit}`,
         `  Features: ${m.features.join(', ')}`,
       ].join('\n'));
 
       return {
         content: [{
           type: 'text' as const,
-          text: `Available models (${models.length}):\n\n${lines.join('\n\n')}`,
+          text: `Available models (${models.length}):\n\n${lines.join('\n\n')}\n\nFor pricing details, visit https://evolink.ai/pricing`,
         }],
       };
     },

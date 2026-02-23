@@ -34,10 +34,6 @@ export function formatTaskResult(task: TaskResponse): string {
       }
     }
 
-    if (task.usage) {
-      lines.push(``, `Cost: ${task.usage.credits_reserved} credits`);
-    }
-
     lines.push('', 'Note: Download URLs expire in 24 hours. Save results promptly.');
   }
 

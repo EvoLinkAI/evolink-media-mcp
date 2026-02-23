@@ -59,40 +59,42 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 
 ## Tools
 
-| Tool | Description | Sync/Async |
-|------|-------------|------------|
-| `generate_image` | Generate AI images | Sync (returns result) |
-| `generate_video` | Generate AI videos | Async (returns task_id) |
-| `generate_music` | Generate AI music | Async (returns task_id) |
-| `list_models` | Browse available models | Sync |
-| `estimate_cost` | Get cost estimate | Sync |
-| `check_task` | Poll async task progress | Sync |
+| Tool | Description | Returns |
+|------|-------------|---------|
+| `generate_image` | Generate AI images | task_id (async) |
+| `generate_video` | Generate AI videos | task_id (async) |
+| `generate_music` | Generate AI music | task_id (async) |
+| `list_models` | Browse available models | model list |
+| `estimate_cost` | Get model info | model info |
+| `check_task` | Poll task progress & get results | status / result URLs |
 
 ## Supported Models
 
 ### Video Generation
-| Model | Quality | Speed | Cost |
-|-------|---------|-------|------|
-| seedance-2-0 | ★★★★ | Fast | $0.12/s |
-| sora-2 | ★★★★★ | Medium | $0.25/s |
-| kling-o3 | ★★★ | Fast | $0.08/s |
-| veo-3-1-pro | ★★★★★ | Slow | $0.40/s |
+| Model | Quality | Speed |
+|-------|---------|-------|
+| seedance-2-0 | ★★★★ | Fast |
+| sora-2 | ★★★★★ | Medium |
+| kling-o3 | ★★★ | Fast |
+| veo-3-1-pro | ★★★★★ | Slow |
 
 ### Image Generation
-| Model | Quality | Speed | Cost |
-|-------|---------|-------|------|
-| z-image-turbo | ★★★ | Ultra-fast | $0.01 |
-| nano-banana-pro | ★★★★ | Fast | $0.02 |
-| seedream-4-5 | ★★★★ | Medium | $0.03 |
-| qwen-image-edit | ★★★★ | Medium | $0.03 |
-| gpt-4o-image | ★★★★★ | Medium | $0.05 |
+| Model | Quality | Speed |
+|-------|---------|-------|
+| z-image-turbo | ★★★ | Ultra-fast |
+| nano-banana-pro | ★★★★ | Fast |
+| seedream-4-5 | ★★★★ | Medium |
+| qwen-image-edit | ★★★★ | Medium |
+| gpt-4o-image | ★★★★★ | Medium |
 
 ### Music Generation
-| Model | Quality | Cost |
-|-------|---------|------|
-| suno-v4 | ★★★ | $0.05 |
-| suno-v4.5 | ★★★★ | $0.08 |
-| suno-v5 | ★★★★★ | $0.12 |
+| Model | Quality |
+|-------|---------|
+| suno-v4 | ★★★ |
+| suno-v4.5 | ★★★★ |
+| suno-v5 | ★★★★★ |
+
+For pricing details, visit [evolink.ai/pricing](https://evolink.ai/pricing).
 
 ## Two Editions
 
@@ -100,7 +102,6 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 |---|---|---|
 | npm | [![npm](https://img.shields.io/npm/v/evolink-media)](https://www.npmjs.com/package/evolink-media) | [![npm](https://img.shields.io/npm/v/evolink-media-beta)](https://www.npmjs.com/package/evolink-media-beta) |
 | API Endpoint | api.evolink.ai | beta-api.evolink.ai |
-| Pricing | Standard | Lower |
 | SLA | 99.9% | Best-effort |
 | Best for | Production | Experimentation |
 

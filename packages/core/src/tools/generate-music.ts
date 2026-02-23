@@ -31,8 +31,6 @@ export function registerGenerateMusic(server: McpServer, config: ServerConfig): 
         body: params as Record<string, unknown>,
       });
 
-      const estimatedCost = task.usage?.credits_reserved ?? null;
-
       return {
         content: [{
           type: 'text' as const,
@@ -41,11 +39,10 @@ export function registerGenerateMusic(server: McpServer, config: ServerConfig): 
             `Task ID: ${task.id}`,
             `Status: pending`,
             `Estimated time: ~${task.task_info?.estimated_time ?? 90}s`,
-            estimatedCost !== null ? `Estimated cost: ${estimatedCost} credits` : null,
             ``,
             `Use check_task with task_id "${task.id}" to poll progress.`,
             `Recommended polling interval: 5-10 seconds.`,
-          ].filter(Boolean).join('\n'),
+          ].join('\n'),
         }],
       };
     },

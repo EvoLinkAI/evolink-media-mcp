@@ -47,7 +47,6 @@ export function registerGenerateVideo(server: McpServer, config: ServerConfig): 
       });
 
       const estimatedTime = task.task_info?.estimated_time ?? 180;
-      const estimatedCost = task.usage?.credits_reserved ?? null;
 
       return {
         content: [{
@@ -57,11 +56,10 @@ export function registerGenerateVideo(server: McpServer, config: ServerConfig): 
             `Task ID: ${task.id}`,
             `Status: pending`,
             `Estimated time: ~${estimatedTime}s`,
-            estimatedCost !== null ? `Estimated cost: ${estimatedCost} credits` : null,
             ``,
             `Use check_task with task_id "${task.id}" to poll progress.`,
             `Recommended polling interval: 10-15 seconds.`,
-          ].filter(Boolean).join('\n'),
+          ].join('\n'),
         }],
       };
     },

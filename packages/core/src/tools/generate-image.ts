@@ -2,7 +2,6 @@ import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { ServerConfig } from '../config.js';
 import { apiRequest } from '../services/api-client.js';
-import { formatTaskResult } from './check-task.js';
 
 const IMAGE_MODELS = [
   'nano-banana-pro',
@@ -11,13 +10,6 @@ const IMAGE_MODELS = [
   'qwen-image-edit',
   'gpt-4o-image',
 ] as const;
-
-const POLL_INTERVAL = 3000;
-const MAX_POLL_TIME = 60000;
-
-function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 const schema = {
   prompt: z.string().max(2000).describe('Image description prompt (max 2000 chars)'),
@@ -34,7 +26,7 @@ const schema = {
 export function registerGenerateImage(server: McpServer, config: ServerConfig): void {
   server.tool(
     'generate_image',
-    'Generate AI images. Returns result directly (fast, <30s). Supports text-to-image and image editing.',
+    'Generate AI images. Returns task_id immediately. Use check_task to poll progress and get result.',
     schema,
     async (params) => {
       const task = await apiRequest(config, {
@@ -43,37 +35,22 @@ export function registerGenerateImage(server: McpServer, config: ServerConfig): 
         body: params as Record<string, unknown>,
       });
 
-      // Images are fast — poll internally until complete
-      const startTime = Date.now();
-      let result = task;
+      const estimatedTime = task.task_info?.estimated_time ?? 30;
 
-      while (
-        result.status !== 'completed' &&
-        result.status !== 'failed' &&
-        Date.now() - startTime < MAX_POLL_TIME
-      ) {
-        await sleep(POLL_INTERVAL);
-        const { queryTask } = await import('../services/api-client.js');
-        result = await queryTask(config, task.id);
-      }
-
-      if (result.status === 'failed') {
-        return {
-          content: [{ type: 'text' as const, text: `Image generation failed: ${result.error?.message ?? 'Unknown error'}` }],
-          isError: true,
-        };
-      }
-
-      if (result.status !== 'completed') {
-        return {
-          content: [{
-            type: 'text' as const,
-            text: `Image generation timed out. Task ID: ${task.id}\nUse check_task to check progress.`,
-          }],
-        };
-      }
-
-      return { content: [{ type: 'text' as const, text: formatTaskResult(result) }] };
+      return {
+        content: [{
+          type: 'text' as const,
+          text: [
+            `Image generation task submitted.`,
+            `Task ID: ${task.id}`,
+            `Status: pending`,
+            `Estimated time: ~${estimatedTime}s`,
+            ``,
+            `Use check_task with task_id "${task.id}" to poll progress.`,
+            `Recommended polling interval: 3-5 seconds.`,
+          ].join('\n'),
+        }],
+      };
     },
   );
 }

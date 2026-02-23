@@ -1,8 +1,8 @@
 # evolink-media-beta
 
-> Cost-effective AI media generation — same models, lower prices via the EvoLink Beta channel.
+> AI media generation via the EvoLink Beta channel — same models, best-effort SLA.
 
-**EvoLink Media Beta** is the cost-optimized version of the [evolink-media](https://www.npmjs.com/package/evolink-media) MCP server. It connects to EvoLink's beta API endpoint which offers lower pricing for the same AI models.
+**EvoLink Media Beta** is the beta-channel version of the [evolink-media](https://www.npmjs.com/package/evolink-media) MCP server. It connects to EvoLink's beta API endpoint.
 
 ## Quick Start
 
@@ -38,11 +38,10 @@ Get your API key at [evolink.ai/dashboard/keys](https://evolink.ai/dashboard/key
 | | Official (`evolink-media`) | Beta (`evolink-media-beta`) |
 |---|---|---|
 | Models | Same | Same |
-| Pricing | Standard | Lower |
 | SLA | 99.9% uptime | Best-effort |
 | Speed | Priority queue | Standard queue |
 
-Choose **Beta** if you want the best price. Choose **Official** for production workloads requiring reliability guarantees.
+Choose **Beta** for experimentation. Choose **Official** for production workloads requiring reliability guarantees.
 
 ## Available Tools
 
