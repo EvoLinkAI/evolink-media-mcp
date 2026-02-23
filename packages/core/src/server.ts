@@ -1,0 +1,26 @@
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import type { ServerConfig } from './config.js';
+import { registerGenerateImage } from './tools/generate-image.js';
+import { registerGenerateVideo } from './tools/generate-video.js';
+import { registerGenerateMusic } from './tools/generate-music.js';
+import { registerListModels } from './tools/list-models.js';
+import { registerEstimateCost } from './tools/estimate-cost.js';
+import { registerCheckTask } from './tools/check-task.js';
+
+export { type ServerConfig, createConfig, getApiKey } from './config.js';
+
+export function createServer(config: ServerConfig): McpServer {
+  const server = new McpServer({
+    name: 'evolink-media',
+    version: '1.0.0',
+  });
+
+  registerGenerateImage(server, config);
+  registerGenerateVideo(server, config);
+  registerGenerateMusic(server, config);
+  registerListModels(server);
+  registerEstimateCost(server);
+  registerCheckTask(server, config);
+
+  return server;
+}

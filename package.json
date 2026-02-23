@@ -1,0 +1,16 @@
+{
+  "name": "evolink-media-mcp",
+  "private": true,
+  "workspaces": [
+    "packages/core",
+    "packages/evolink-media",
+    "packages/evolink-media-beta"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "clean": "rm -rf packages/*/dist"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
