@@ -12,7 +12,7 @@ export { type ServerConfig, createConfig, getApiKey } from './config.js';
 export function createServer(config: ServerConfig): McpServer {
   const server = new McpServer({
     name: config.channel === 'beta' ? 'evolink-media-beta' : 'evolink-media',
-    version: '1.1.0',
+    version: '1.1.1',
   });
 
   registerGenerateImage(server, config);

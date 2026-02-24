@@ -12,7 +12,7 @@ export function registerGenerateImage(server: McpServer, config: ServerConfig): 
     model: z.enum(modelNames).default(modelNames[0])
       .describe('Image generation model'),
     size: z.string().optional()
-      .describe('Image size. Ratio format: 1:1, 16:9, 9:16, 2:3, 3:2, 4:3, 3:4, 4:5, 5:4, 21:9. Pixel format (gpt-4o-image): 1024x1024, 1024x1536, 1536x1024'),
+      .describe('Image size. WARNING: supported values vary by model. GPT models (gpt-image-1.5, gpt-image-1, gpt-4o-image): 1024x1024, 1024x1536, 1536x1024. Most other models use ratio format: 1:1, 16:9, 9:16, 2:3, 3:2, 4:3, 3:4, 4:5, 5:4, 21:9. If unsure, omit this parameter to use the model default.'),
     n: z.number().int().min(1).max(4).optional()
       .describe('Number of images to generate (1-4, model dependent)'),
     image_urls: z.array(z.string().url()).max(14).optional()

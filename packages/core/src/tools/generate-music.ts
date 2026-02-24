@@ -21,6 +21,8 @@ export function registerGenerateMusic(server: McpServer, config: ServerConfig): 
       .describe('Music style tags, e.g. "pop, electronic, upbeat, female vocals, 120bpm". Required in custom mode'),
     title: z.string().max(80).optional()
       .describe('Song title (max 80 chars). Required in custom mode'),
+    duration: z.number().int().min(30).max(240).optional()
+      .describe('Target duration in seconds. suno-v4: 30-120s. suno-v4.5/v5: 30-240s. If omitted, model decides length.'),
     negative_tags: z.string().optional()
       .describe('Styles to exclude, e.g. "heavy metal, screaming"'),
     vocal_gender: z.enum(['m', 'f']).optional()

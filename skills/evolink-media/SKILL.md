@@ -53,7 +53,7 @@ Only ask about what's missing. Use sensible defaults for the rest.
 |-----------|----------|-----------------|
 | `prompt` | Always required | What they want to see |
 | `model` | Quality matters | Default: `gpt-image-1.5`. `gpt-4o-image` [BETA] for best quality, `z-image-turbo` for speed |
-| `size` | Orientation/platform | e.g., "portrait" → `9:16`, "landscape" → `16:9` |
+| `size` | Orientation/platform | **GPT models** (gpt-image-1.5, gpt-image-1, gpt-4o-image): `1024x1024`, `1024x1536`, `1536x1024`. **Other models**: ratio format `1:1`, `16:9`, `9:16`, `2:3`, `3:2`, etc. Omit to use model default. |
 | `n` | User wants variations | 1–4 images |
 | `image_urls` | Edit or reference existing images | Up to 14 URLs |
 | `mask_url` | Partial editing | PNG mask, `gpt-4o-image` only |
@@ -84,7 +84,8 @@ Music has two **required** fields — always collect both before calling `genera
    - `style`: genre + mood + tempo tags (e.g., `"pop, upbeat, female vocals, 120bpm"`)
    - `title`: song name (max 80 chars)
    - `vocal_gender`: `m` or `f` — optional
-4. **Optional:** `negative_tags`, `model` (default `suno-v4`, suggest `suno-v5` for best quality)
+4. **Duration preference?** → Sets `duration` (30–240s). If not specified, model decides length.
+5. **Optional:** `negative_tags`, `model` (default `suno-v4`, suggest `suno-v5` for best quality)
 
 > **Rule:** NEVER call `generate_music` without both `custom_mode` and `instrumental` set. They are required fields with no defaults.
 

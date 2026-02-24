@@ -72,7 +72,7 @@ Check what the user has provided and **only ask about what's missing**.
 |-----------|----------|-------|
 | **prompt** | Always required | Ask what they want to see |
 | **model** | User asks or quality matters | Default: `gpt-image-1.5`. Suggest `gpt-4o-image` [BETA] for highest quality, `z-image-turbo` for speed |
-| **size** | User mentions orientation or platform | e.g., "portrait for Instagram" → `9:16`; "landscape banner" → `16:9` |
+| **size** | User mentions orientation or platform | **GPT models** (gpt-image-1.5, gpt-image-1, gpt-4o-image): `1024x1024`, `1024x1536`, `1536x1024`. **Other models**: ratio format `1:1`, `16:9`, `9:16`, `2:3`, `3:2`, etc. Omit to use model default. |
 | **n** | User wants variations | 1–4 images |
 | **image_urls** | User wants to edit or reference existing images | Up to 14 URLs; triggers image-to-image mode |
 | **mask_url** | User wants to edit only part of an image | PNG mask; only works with `gpt-4o-image` |
@@ -108,7 +108,10 @@ Music has two required fields — always collect both before calling `generate_m
    - `title`: song name (max 80 chars)
    - `vocal_gender`: `m` (male) or `f` (female) — optional
 
-4. **Optional for both modes:**
+4. **Duration preference?**
+   - `duration`: target length in seconds (30–240s). If not specified, model decides length.
+
+5. **Optional for both modes:**
    - `negative_tags`: styles to exclude (e.g., `"heavy metal, screaming"`)
    - `model`: default `suno-v4`. Suggest `suno-v5` for studio-grade quality.
 
