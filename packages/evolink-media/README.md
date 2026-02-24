@@ -1,13 +1,13 @@
-# evolink-media
+# @evolinkai/evolink-media
 
-> Generate AI videos, images & music with one API key. 10+ top models including Sora, Kling, Veo, Seedance, Suno, and more.
+> Generate AI videos, images & music with one API key. 60+ models including Sora, Kling, Veo, Seedance, GPT Image, Suno, and more.
 
 **EvoLink Media** is an MCP (Model Context Protocol) server that gives AI assistants like Claude the ability to generate multimedia content through a unified API.
 
 ## Quick Start
 
 ```bash
-npx evolink-media
+npx @evolinkai/evolink-media
 ```
 
 Set your API key:
@@ -19,16 +19,14 @@ Get your API key at [evolink.ai/dashboard/keys](https://evolink.ai/dashboard/key
 
 ## MCP Configuration
 
-### Claude Desktop / Claude Code
-
-Add to your MCP settings:
+### Claude Desktop
 
 ```json
 {
   "mcpServers": {
     "evolink-media": {
       "command": "npx",
-      "args": ["-y", "evolink-media@latest"],
+      "args": ["-y", "@evolinkai/evolink-media@latest"],
       "env": {
         "EVOLINK_API_KEY": "your-key-here"
       }
@@ -37,37 +35,36 @@ Add to your MCP settings:
 }
 ```
 
+### Cursor
+
+Go to **Settings → MCP** and add:
+- Command: `npx -y @evolinkai/evolink-media@latest`
+- Environment: `EVOLINK_API_KEY=your-key-here`
+
 ## Available Tools
 
 | Tool | Description |
 |------|-------------|
-| `generate_image` | Generate AI images (returns task_id, use check_task to poll) |
-| `generate_video` | Generate AI videos (returns task_id, use check_task to poll) |
-| `generate_music` | Generate AI music (returns task_id, use check_task to poll) |
+| `generate_image` | Generate AI images (async, returns task_id) |
+| `generate_video` | Generate AI videos (async, returns task_id) |
+| `generate_music` | Generate AI music (async, returns task_id) |
 | `list_models` | List available models with features |
-| `estimate_cost` | Get model info |
+| `estimate_cost` | Get model info and capabilities |
 | `check_task` | Check async task status and results |
 
-## Supported Models
+## Supported Models (60+)
 
-### Video
-- **seedance-2-0** — ByteDance, excellent motion quality
-- **sora-2** — OpenAI, cinematic generation
-- **kling-o3** — Kuaishou, fast and cost-effective
-- **veo-3-1-pro** — Google, top-tier cinematic quality
+### Video (37 models)
+`seedance-1.5-pro`, `sora-2-preview`, `kling-o3-text-to-video`, `veo-3.1-generate-preview`, `MiniMax-Hailuo-2.3`, `wan2.6-text-to-video`, `sora-2` [BETA], `veo3.1-pro` [BETA], and more.
 
-### Image
-- **gpt-4o-image** — Best quality and prompt understanding
-- **nano-banana-pro** — Great quality, versatile
-- **z-image-turbo** — Ultra-fast generation
-- **seedream-4-5** — Photorealistic
-- **qwen-image-edit** — Instruction-based editing
+### Image (19 models)
+`gpt-image-1.5`, `z-image-turbo`, `doubao-seedream-4.5`, `qwen-image-edit`, `gpt-4o-image` [BETA], and more.
 
-### Music
-- **suno-v5** — Studio-grade quality
-- **suno-v4.5** — Balanced quality and speed
-- **suno-v4** — Fast and affordable
+### Music (5 models, all [BETA])
+`suno-v4`, `suno-v4.5`, `suno-v5`
+
+Use `list_models` tool to see the full catalog.
 
 ## License
 
-MIT
+MIT — [EvoLink AI](https://evolink.ai)

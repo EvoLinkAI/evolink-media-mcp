@@ -1,13 +1,13 @@
-# evolink-media-beta
+# @evolinkai/evolink-media-beta
 
-> AI media generation via the EvoLink Beta channel — same models, best-effort SLA.
+> AI media generation via the EvoLink Beta channel — same 60+ models, best-effort SLA.
 
-**EvoLink Media Beta** is the beta-channel version of the [evolink-media](https://www.npmjs.com/package/evolink-media) MCP server. It connects to EvoLink's beta API endpoint.
+**EvoLink Media Beta** is the beta-channel version of [@evolinkai/evolink-media](https://www.npmjs.com/package/@evolinkai/evolink-media). It connects to EvoLink's beta API endpoint.
 
 ## Quick Start
 
 ```bash
-npx evolink-media-beta
+npx @evolinkai/evolink-media-beta
 ```
 
 Set your API key:
@@ -24,7 +24,7 @@ Get your API key at [evolink.ai/dashboard/keys](https://evolink.ai/dashboard/key
   "mcpServers": {
     "evolink-media-beta": {
       "command": "npx",
-      "args": ["-y", "evolink-media-beta@latest"],
+      "args": ["-y", "@evolinkai/evolink-media-beta@latest"],
       "env": {
         "EVOLINK_API_KEY": "your-key-here"
       }
@@ -35,13 +35,13 @@ Get your API key at [evolink.ai/dashboard/keys](https://evolink.ai/dashboard/key
 
 ## Beta vs Official
 
-| | Official (`evolink-media`) | Beta (`evolink-media-beta`) |
+| | Official (`@evolinkai/evolink-media`) | Beta (`@evolinkai/evolink-media-beta`) |
 |---|---|---|
-| Models | Same | Same |
+| Models | 60+ (same) | 60+ (same) |
 | SLA | 99.9% uptime | Best-effort |
 | Speed | Priority queue | Standard queue |
 
-Choose **Beta** for experimentation. Choose **Official** for production workloads requiring reliability guarantees.
+Choose **Beta** for experimentation. Choose **Official** for production workloads.
 
 ## Available Tools
 
@@ -49,4 +49,4 @@ Same 6 tools as the official version: `generate_image`, `generate_video`, `gener
 
 ## License
 
-MIT
+MIT — [EvoLink AI](https://evolink.ai)

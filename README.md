@@ -2,24 +2,22 @@
 
 **Generate AI videos, images & music with one API key.**
 
-One unified MCP server, 10+ top AI models — Sora, Kling, Veo, Seedance, Suno, GPT-4o, and more. Works with Claude Desktop, Claude Code, Cursor, Windsurf, and any MCP-compatible client.
+One unified MCP server, 60+ AI models — Sora, Kling, Veo, Seedance, Suno, GPT Image, and more. Works with Claude Desktop, Claude Code, Cursor, Windsurf, and any MCP-compatible client.
+
+[![npm](https://img.shields.io/npm/v/@evolinkai/evolink-media)](https://www.npmjs.com/package/@evolinkai/evolink-media)
 
 ## Install
 
-### Claude Code (Plugin)
+### Claude Desktop
 
-```bash
-claude plugin install evolink-media@claude-plugin-directory
-```
-
-### Claude Desktop / Any MCP Client
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
   "mcpServers": {
     "evolink-media": {
       "command": "npx",
-      "args": ["-y", "evolink-media@latest"],
+      "args": ["-y", "@evolinkai/evolink-media@latest"],
       "env": {
         "EVOLINK_API_KEY": "your-key-here"
       }
@@ -31,7 +29,7 @@ claude plugin install evolink-media@claude-plugin-directory
 ### Cursor
 
 Go to **Settings → MCP** and add:
-- Command: `npx -y evolink-media@latest`
+- Command: `npx -y @evolinkai/evolink-media@latest`
 - Environment: `EVOLINK_API_KEY=your-key-here`
 
 ### Windsurf
@@ -42,7 +40,7 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
   "mcpServers": {
     "evolink-media": {
       "command": "npx",
-      "args": ["-y", "evolink-media@latest"],
+      "args": ["-y", "@evolinkai/evolink-media@latest"],
       "env": {
         "EVOLINK_API_KEY": "your-key-here"
       }
@@ -61,46 +59,55 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 
 | Tool | Description | Returns |
 |------|-------------|---------|
-| `generate_image` | Generate AI images | task_id (async) |
+| `generate_image` | Generate or edit AI images | task_id (async) |
 | `generate_video` | Generate AI videos | task_id (async) |
-| `generate_music` | Generate AI music | task_id (async) |
+| `generate_music` | Generate AI music & songs | task_id (async) |
 | `list_models` | Browse available models | model list |
-| `estimate_cost` | Get model info | model info |
+| `estimate_cost` | Get model info & capabilities | model details |
 | `check_task` | Poll task progress & get results | status / result URLs |
+
+All generation tools are **async** — they return a `task_id` immediately. Use `check_task` to poll until completion.
 
 ## Supported Models
 
-### Video Generation
-| Model | Quality | Speed |
-|-------|---------|-------|
-| seedance-2-0 | ★★★★ | Fast |
-| sora-2 | ★★★★★ | Medium |
-| kling-o3 | ★★★ | Fast |
-| veo-3-1-pro | ★★★★★ | Slow |
+### Video (37 models)
 
-### Image Generation
-| Model | Quality | Speed |
-|-------|---------|-------|
-| z-image-turbo | ★★★ | Ultra-fast |
-| nano-banana-pro | ★★★★ | Fast |
-| seedream-4-5 | ★★★★ | Medium |
-| qwen-image-edit | ★★★★ | Medium |
-| gpt-4o-image | ★★★★★ | Medium |
+| Model | Best for |
+|-------|----------|
+| `seedance-1.5-pro` | Image-to-video, first-last-frame, auto audio |
+| `sora-2-preview` | Cinematic video preview |
+| `kling-o3-text-to-video` | Text-to-video, 1080p |
+| `veo-3.1-generate-preview` | Google video generation |
+| `MiniMax-Hailuo-2.3` | High-quality video |
+| `wan2.6-text-to-video` | Alibaba latest generation |
+| `sora-2` [BETA] | Cinematic, strong prompt adherence |
+| `veo3.1-pro` [BETA] | Top quality, cinematic + audio |
 
-### Music Generation
+### Image (19 models)
+
+| Model | Best for |
+|-------|----------|
+| `gpt-image-1.5` | Latest OpenAI generation |
+| `z-image-turbo` | Ultra-fast iterations |
+| `doubao-seedream-4.5` | Photorealistic |
+| `qwen-image-edit` | Instruction-based editing |
+| `gpt-4o-image` [BETA] | Best quality, complex editing |
+
+### Music (5 models, all [BETA])
+
 | Model | Quality |
 |-------|---------|
-| suno-v4 | ★★★ |
-| suno-v4.5 | ★★★★ |
-| suno-v5 | ★★★★★ |
+| `suno-v4` | Good, 120s max |
+| `suno-v4.5` | Better, 240s max |
+| `suno-v5` | Studio-grade, 240s max |
 
-For pricing details, visit [evolink.ai/pricing](https://evolink.ai/pricing).
+Use `list_models` to see the full catalog. For pricing, visit [evolink.ai/pricing](https://evolink.ai/pricing).
 
 ## Two Editions
 
-| | `evolink-media` | `evolink-media-beta` |
+| | `@evolinkai/evolink-media` | `@evolinkai/evolink-media-beta` |
 |---|---|---|
-| npm | [![npm](https://img.shields.io/npm/v/evolink-media)](https://www.npmjs.com/package/evolink-media) | [![npm](https://img.shields.io/npm/v/evolink-media-beta)](https://www.npmjs.com/package/evolink-media-beta) |
+| npm | [![npm](https://img.shields.io/npm/v/@evolinkai/evolink-media)](https://www.npmjs.com/package/@evolinkai/evolink-media) | [![npm](https://img.shields.io/npm/v/@evolinkai/evolink-media-beta)](https://www.npmjs.com/package/@evolinkai/evolink-media-beta) |
 | API Endpoint | api.evolink.ai | beta-api.evolink.ai |
 | SLA | 99.9% | Best-effort |
 | Best for | Production | Experimentation |
@@ -116,12 +123,12 @@ npm run build
 
 Test locally:
 ```bash
-EVOLINK_API_KEY=your-key node packages/evolink-media/dist/index.js
+EVOLINK_API_KEY=your-key node packages/evolink-media/dist/evolink-media/src/index.js
 ```
 
 Inspect with MCP Inspector:
 ```bash
-npx @modelcontextprotocol/inspector node packages/evolink-media/dist/index.js
+npx @modelcontextprotocol/inspector node packages/evolink-media/dist/evolink-media/src/index.js
 ```
 
 ## License
