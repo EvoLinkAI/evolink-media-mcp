@@ -1,3 +1,5 @@
+// --- HTTP-level error handling (non-2xx responses) ---
+
 export interface EvolinkApiError {
   error: {
     code: number;
@@ -38,4 +40,97 @@ export function formatApiError(status: number, body: unknown): string {
     return `[${status}] ${apiError.error.message}${suggestion}${hint}`;
   }
   return `[${status}] ${HTTP_ERROR_MESSAGES[status] ?? 'Unknown error'}`;
+}
+
+// --- Task-level error handling (status: "failed" in check_task) ---
+
+export type TaskErrorCode =
+  | 'content_policy_violation'
+  | 'invalid_parameters'
+  | 'image_dimension_mismatch'
+  | 'image_processing_error'
+  | 'request_cancelled'
+  | 'resource_not_found'
+  | 'generation_timeout'
+  | 'quota_exceeded'
+  | 'resource_exhausted'
+  | 'generation_failed_no_content'
+  | 'service_error'
+  | 'service_unavailable'
+  | 'unknown_error';
+
+export interface TaskErrorInfo {
+  suggestion: string;
+  retryable: boolean;
+}
+
+const TASK_ERROR_MAP: Record<TaskErrorCode, TaskErrorInfo> = {
+  content_policy_violation: {
+    suggestion: 'Revise your prompt — avoid real person photos, celebrity names, copyrighted content, NSFW, or violence. Try illustration style instead.',
+    retryable: false,
+  },
+  invalid_parameters: {
+    suggestion: 'Check parameter values — prompt length, image dimensions, duration, and resolution must be within the model\'s supported range.',
+    retryable: false,
+  },
+  image_dimension_mismatch: {
+    suggestion: 'Input image dimensions don\'t match the requested aspect ratio. Resize your image to match (e.g., 1280x720 for 16:9).',
+    retryable: false,
+  },
+  image_processing_error: {
+    suggestion: 'Failed to process the input image. Check: format (JPG/PNG/WebP), size (<10MB), and that the URL is publicly accessible.',
+    retryable: false,
+  },
+  request_cancelled: {
+    suggestion: 'This task was cancelled. If unintentional, submit a new request.',
+    retryable: false,
+  },
+  resource_not_found: {
+    suggestion: 'Task ID not found or expired. Verify the task ID is correct.',
+    retryable: false,
+  },
+  generation_timeout: {
+    suggestion: 'Generation timed out — the system may be under high load. Retry, or try simplifying your prompt/lowering resolution.',
+    retryable: true,
+  },
+  quota_exceeded: {
+    suggestion: 'Account quota exceeded or rate limited. Wait a moment, then retry. Top up at https://evolink.ai/dashboard/billing',
+    retryable: true,
+  },
+  resource_exhausted: {
+    suggestion: 'Server resources temporarily exhausted. Wait 30-60 seconds and retry.',
+    retryable: true,
+  },
+  generation_failed_no_content: {
+    suggestion: 'Model produced no output — the prompt or image may involve watermark removal or protected content. Modify and retry.',
+    retryable: true,
+  },
+  service_error: {
+    suggestion: 'Internal service error (temporary). Retry after 1 minute.',
+    retryable: true,
+  },
+  service_unavailable: {
+    suggestion: 'Service temporarily unavailable. Retry after 1-2 minutes.',
+    retryable: true,
+  },
+  unknown_error: {
+    suggestion: 'An unknown error occurred. Retry after 1 minute. If it persists, provide the task ID to support.',
+    retryable: true,
+  },
+};
+
+export function getTaskErrorInfo(code: string): TaskErrorInfo {
+  return TASK_ERROR_MAP[code as TaskErrorCode] ?? TASK_ERROR_MAP.unknown_error;
+}
+
+export function formatTaskError(error: { code?: string; message?: string }): string {
+  const code = error.code ?? 'unknown_error';
+  const info = getTaskErrorInfo(code);
+  const lines: string[] = [
+    `Error code: ${code}`,
+    `Message: ${error.message ?? 'No details provided'}`,
+    `Retryable: ${info.retryable ? 'Yes — you can retry this request' : 'No — modify your input before retrying'}`,
+    `Suggestion: ${info.suggestion}`,
+  ];
+  return lines.join('\n');
 }

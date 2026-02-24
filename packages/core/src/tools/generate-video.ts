@@ -1,43 +1,38 @@
 import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { ServerConfig } from '../config.js';
-import { apiRequest } from '../services/api-client.js';
-
-const VIDEO_MODELS = [
-  'seedance-2-0',
-  'sora-2',
-  'kling-o3-text-to-video',
-  'veo-3-1-pro',
-] as const;
-
-const schema = {
-  prompt: z.string().max(5000).describe('Video description prompt (max 5000 chars)'),
-  model: z.enum(VIDEO_MODELS).default('seedance-2-0')
-    .describe('Video generation model'),
-  duration: z.number().int().min(4).max(15).optional()
-    .describe('Video duration in seconds (4-15)'),
-  quality: z.enum(['480p', '720p', '1080p']).optional()
-    .describe('Output video quality'),
-  image_url: z.string().url().optional()
-    .describe('Reference image URL for image-to-video generation'),
-  generate_audio: z.boolean().default(false)
-    .describe('Whether to generate audio/sound effects'),
-};
+import { apiRequest, formatUsageInfo } from '../services/api-client.js';
+import { getModelNames } from '../data/models.js';
 
 export function registerGenerateVideo(server: McpServer, config: ServerConfig): void {
+  const modelNames = getModelNames('video');
+
+  const schema = {
+    prompt: z.string().max(5000).describe('Video description prompt'),
+    model: z.enum(modelNames).default(modelNames[0])
+      .describe('Video generation model'),
+    duration: z.number().int().min(3).max(15).optional()
+      .describe('Video duration in seconds. Range depends on model'),
+    quality: z.enum(['480p', '720p', '1080p', '4k']).optional()
+      .describe('Output video quality. Availability varies by model'),
+    aspect_ratio: z.enum(['16:9', '9:16', '1:1', '4:3', '3:4', '21:9', 'adaptive']).optional()
+      .describe('Video aspect ratio'),
+    image_urls: z.array(z.string().url()).max(9).optional()
+      .describe('Reference image URLs for image-to-video'),
+    generate_audio: z.boolean().optional()
+      .describe('Generate audio/sound effects. Supported by seedance-1.5-pro and veo3.1-pro'),
+  };
+
   server.tool(
     'generate_video',
-    'Generate AI videos. Returns task_id immediately (video takes 3-5min). Use check_task to poll progress.',
+    'Generate AI videos. Returns task_id immediately (video takes 2-5min). Use check_task to poll progress.',
     schema,
     async (params) => {
-      const { image_url, generate_audio, ...rest } = params;
+      const { generate_audio, ...rest } = params;
       const body: Record<string, unknown> = { ...rest };
 
-      if (image_url) {
-        body.image_urls = [image_url];
-      }
-      if (generate_audio) {
-        body.sound = true;
+      if (generate_audio !== undefined) {
+        body.generate_audio = generate_audio;
       }
 
       const task = await apiRequest(config, {
@@ -47,20 +42,20 @@ export function registerGenerateVideo(server: McpServer, config: ServerConfig): 
       });
 
       const estimatedTime = task.task_info?.estimated_time ?? 180;
+      const usageInfo = formatUsageInfo(task.usage);
+
+      const lines = [
+        `Video generation task submitted.`,
+        `Task ID: ${task.id}`,
+        `Status: pending`,
+        `Estimated time: ~${estimatedTime}s`,
+      ];
+      if (usageInfo) lines.push(usageInfo);
+      lines.push('', `Use check_task with task_id "${task.id}" to poll progress.`);
+      lines.push(`Recommended polling interval: 10-15 seconds.`);
 
       return {
-        content: [{
-          type: 'text' as const,
-          text: [
-            `Video generation task submitted.`,
-            `Task ID: ${task.id}`,
-            `Status: pending`,
-            `Estimated time: ~${estimatedTime}s`,
-            ``,
-            `Use check_task with task_id "${task.id}" to poll progress.`,
-            `Recommended polling interval: 10-15 seconds.`,
-          ].join('\n'),
-        }],
+        content: [{ type: 'text' as const, text: lines.join('\n') }],
       };
     },
   );

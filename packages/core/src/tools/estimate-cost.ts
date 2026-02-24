@@ -27,7 +27,7 @@ export function registerEstimateCost(server: McpServer): void {
         content: [{
           type: 'text' as const,
           text: [
-            `Model: ${model.name}`,
+            `Model: ${model.name}${model.isBeta ? ' [BETA]' : ''}`,
             `Category: ${model.category}`,
             `Description: ${model.description}`,
             `Features: ${model.features.join(', ')}`,

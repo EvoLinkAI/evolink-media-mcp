@@ -1,28 +1,35 @@
 import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { ServerConfig } from '../config.js';
-import { apiRequest } from '../services/api-client.js';
-
-const MUSIC_MODELS = [
-  'suno-v4',
-  'suno-v4.5',
-  'suno-v5',
-] as const;
-
-const schema = {
-  prompt: z.string().max(3000).describe('Music description or lyrics (max 3000 chars)'),
-  model: z.enum(MUSIC_MODELS).default('suno-v4.5')
-    .describe('Music generation model'),
-  instrumental: z.boolean().default(false)
-    .describe('Generate instrumental only (no vocals)'),
-  duration: z.number().int().min(30).max(240).optional()
-    .describe('Music duration in seconds (30-240)'),
-};
+import { apiRequest, formatUsageInfo } from '../services/api-client.js';
+import { getModelNames } from '../data/models.js';
 
 export function registerGenerateMusic(server: McpServer, config: ServerConfig): void {
+  const modelNames = getModelNames('music');
+
+  const schema = {
+    prompt: z.string().max(5000).describe(
+      'In simple mode: music description (max 500 chars). In custom mode: lyrics with tags like [Verse], [Chorus] (max 3000 for v4, 5000 for v4.5+)',
+    ),
+    model: z.enum(modelNames).default(modelNames[0])
+      .describe('Music generation model'),
+    custom_mode: z.boolean()
+      .describe('false = simple mode (AI generates lyrics/style from prompt). true = custom mode (you control style, title, lyrics)'),
+    instrumental: z.boolean()
+      .describe('true = instrumental only (no vocals). false = with vocals'),
+    style: z.string().max(1000).optional()
+      .describe('Music style tags, e.g. "pop, electronic, upbeat, female vocals, 120bpm". Required in custom mode'),
+    title: z.string().max(80).optional()
+      .describe('Song title (max 80 chars). Required in custom mode'),
+    negative_tags: z.string().optional()
+      .describe('Styles to exclude, e.g. "heavy metal, screaming"'),
+    vocal_gender: z.enum(['m', 'f']).optional()
+      .describe('Vocal gender preference: m = male, f = female. Only in custom mode'),
+  };
+
   server.tool(
     'generate_music',
-    'Generate AI music with Suno models. Returns task_id immediately (music takes 1-2min). Use check_task to poll.',
+    'Generate AI music with Suno models. Returns task_id immediately (1-2min). Use check_task to poll.',
     schema,
     async (params) => {
       const task = await apiRequest(config, {
@@ -31,19 +38,21 @@ export function registerGenerateMusic(server: McpServer, config: ServerConfig): 
         body: params as Record<string, unknown>,
       });
 
+      const estimatedTime = task.task_info?.estimated_time ?? 90;
+      const usageInfo = formatUsageInfo(task.usage);
+
+      const lines = [
+        `Music generation task submitted.`,
+        `Task ID: ${task.id}`,
+        `Status: pending`,
+        `Estimated time: ~${estimatedTime}s`,
+      ];
+      if (usageInfo) lines.push(usageInfo);
+      lines.push('', `Use check_task with task_id "${task.id}" to poll progress.`);
+      lines.push(`Recommended polling interval: 5-10 seconds.`);
+
       return {
-        content: [{
-          type: 'text' as const,
-          text: [
-            `Music generation task submitted.`,
-            `Task ID: ${task.id}`,
-            `Status: pending`,
-            `Estimated time: ~${task.task_info?.estimated_time ?? 90}s`,
-            ``,
-            `Use check_task with task_id "${task.id}" to poll progress.`,
-            `Recommended polling interval: 5-10 seconds.`,
-          ].join('\n'),
-        }],
+        content: [{ type: 'text' as const, text: lines.join('\n') }],
       };
     },
   );

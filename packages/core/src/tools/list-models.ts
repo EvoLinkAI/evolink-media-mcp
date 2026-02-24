@@ -15,11 +15,14 @@ export function registerListModels(server: McpServer): void {
     async (params) => {
       const models = getModelsByCategory(params.category);
 
-      const lines = models.map(m => [
-        `**${m.name}** [${m.category}]`,
-        `  ${m.description}`,
-        `  Features: ${m.features.join(', ')}`,
-      ].join('\n'));
+      const lines = models.map(m => {
+        const badge = m.isBeta ? ' [BETA]' : '';
+        return [
+          `**${m.name}**${badge} [${m.category}]`,
+          `  ${m.description}`,
+          `  Features: ${m.features.join(', ')}`,
+        ].join('\n');
+      });
 
       return {
         content: [{

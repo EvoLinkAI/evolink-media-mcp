@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type { ServerConfig } from '../config.js';
-import { queryTask, type TaskResponse } from '../services/api-client.js';
+import { queryTask, formatUsageInfo, type TaskResponse } from '../services/api-client.js';
+import { formatTaskError } from '../services/error-handler.js';
 
 const schema = {
   task_id: z.string().describe('Task ID returned by generate_video or generate_music'),
@@ -14,6 +15,9 @@ export function formatTaskResult(task: TaskResponse): string {
     `Status: ${task.status}`,
     `Progress: ${task.progress}%`,
   ];
+
+  const usageInfo = formatUsageInfo(task.usage);
+  if (usageInfo) lines.push(usageInfo);
 
   if (task.status === 'completed') {
     if (task.results?.length) {
@@ -38,7 +42,11 @@ export function formatTaskResult(task: TaskResponse): string {
   }
 
   if (task.status === 'failed') {
-    lines.push(``, `Error: ${task.error?.message ?? 'Unknown error'}`);
+    if (task.error) {
+      lines.push('', formatTaskError(task.error));
+    } else {
+      lines.push('', 'Error: Unknown error occurred. You can retry the request.');
+    }
   }
 
   if (task.status === 'pending' || task.status === 'processing') {
