@@ -68,11 +68,11 @@ You control everything: lyrics with `[Verse]`/`[Chorus]`/`[Bridge]` tags, style,
 
 ## File Upload
 
-Upload audio files for reference or digital-human generation workflows:
+Upload audio files for music continuation or remix workflows:
 
 1. Call `upload_file` with `file_path`, `base64_data`, or `file_url` → get `file_url` (synchronous)
 
-**Supported:** Audio (all formats — MP3, WAV, FLAC, AAC, OGG, M4A, etc.). Max **100MB**. Files expire after **72 hours**. Quota: 100 files (default) / 500 (VIP).
+**Supported:** Audio (MP3, WAV, FLAC, AAC, OGG, M4A, etc.). Max **100MB**. Files expire after **72 hours**. Quota: 100 files (default) / 500 (VIP).
 
 ## Workflow
 
