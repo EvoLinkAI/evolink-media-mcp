@@ -101,7 +101,7 @@ All generation tools are **async** — they return a `task_id` immediately. Use 
 | `suno-v4.5` | Better, 240s max |
 | `suno-v5` | Studio-grade, 240s max |
 
-Use `list_models` to see the full catalog. For pricing, visit [evolink.ai/pricing](https://evolink.ai/pricing).
+Use `list_models` to see the full catalog. For pricing, visit [evolink.ai/pricing](https://evolink.ai/models).
 
 ## Two Editions
 
