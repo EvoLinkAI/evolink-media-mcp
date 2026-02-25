@@ -1,7 +1,7 @@
 ---
 name: evolink-video
 description: AI video generation — Sora, Kling, Veo 3, Seedance, Hailuo, WAN, Grok. Text-to-video, image-to-video, video editing. 37 models, one API key.
-version: 1.1.0
+version: 1.2.0
 metadata:
   openclaw:
     requires:
@@ -27,7 +27,7 @@ Get your API key at [evolink.ai](https://evolink.ai) and set `EVOLINK_API_KEY`.
 | Tool | Purpose |
 |------|---------|
 | `generate_video` | Create AI videos from text or images |
-| `upload_file` | Upload local image/video for i2v or editing workflows |
+| `upload_file` | Upload local images for image-to-video generation workflows |
 | `delete_file` | Remove uploaded files to free quota |
 | `list_files` | View uploaded files and check storage quota |
 | `check_task` | Poll generation progress and get result URLs |
@@ -71,12 +71,12 @@ Get your API key at [evolink.ai](https://evolink.ai) and set `EVOLINK_API_KEY`.
 
 ## File Upload
 
-For image-to-video or video editing, upload local files first:
+For image-to-video generation, upload reference images first:
 
 1. Call `upload_file` with `file_path`, `base64_data`, or `file_url` → get `file_url` (synchronous)
 2. Use that `file_url` as `image_urls` input for `generate_video`
 
-**Supported:** Images (JPEG/PNG/GIF/WebP), Video (all formats). Max **100MB**. Files expire after **72 hours**. Quota: 100 files (default) / 500 (VIP).
+**Supported:** Images (JPEG, PNG, GIF, WebP). Max **100MB**. Files expire after **72 hours**. Quota: 100 files (default) / 500 (VIP).
 
 ## Workflow
 
