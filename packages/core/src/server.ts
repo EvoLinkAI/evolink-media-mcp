@@ -6,13 +6,16 @@ import { registerGenerateMusic } from './tools/generate-music.js';
 import { registerListModels } from './tools/list-models.js';
 import { registerEstimateCost } from './tools/estimate-cost.js';
 import { registerCheckTask } from './tools/check-task.js';
+import { registerUploadFile } from './tools/upload-file.js';
+import { registerDeleteFile } from './tools/delete-file.js';
+import { registerListFiles } from './tools/list-files.js';
 
 export { type ServerConfig, createConfig, getApiKey } from './config.js';
 
 export function createServer(config: ServerConfig): McpServer {
   const server = new McpServer({
     name: config.channel === 'beta' ? 'evolink-media-beta' : 'evolink-media',
-    version: '1.1.1',
+    version: '1.2.0',
   });
 
   registerGenerateImage(server, config);
@@ -21,6 +24,9 @@ export function createServer(config: ServerConfig): McpServer {
   registerListModels(server);
   registerEstimateCost(server);
   registerCheckTask(server, config);
+  registerUploadFile(server);
+  registerDeleteFile(server);
+  registerListFiles(server);
 
   return server;
 }

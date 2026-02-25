@@ -199,6 +199,93 @@ Complete API parameter reference for all Evolink Media MCP tools.
 
 ---
 
+## File Management API
+
+**Base URL:** `https://files-api.evolink.ai` (different from generation API)
+**Auth:** `Authorization: Bearer {EVOLINK_API_KEY}` (same API key)
+
+All file endpoints are **synchronous** — no task polling needed.
+
+### upload_file
+
+Three upload methods available:
+
+| Method | Endpoint | Content-Type | Use when |
+|--------|----------|-------------|----------|
+| Base64 | `POST /api/v1/files/upload/base64` | `application/json` | Have base64 data |
+| Stream | `POST /api/v1/files/upload/stream` | `multipart/form-data` | Have a local file |
+| URL | `POST /api/v1/files/upload/url` | `application/json` | Have a remote URL |
+
+**MCP Tool Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `file_path` | string | One of three | Local file path. Uses stream upload internally. |
+| `base64_data` | string | One of three | Base64-encoded data (raw or Data URL format). |
+| `file_url` | string | One of three | Remote URL. Server downloads and stores it. |
+| `upload_path` | string | No | Server-side subdirectory for organizing uploads. |
+| `file_name` | string | No | Custom file name. |
+
+**Response Fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `data.file_id` | string | Unique file identifier (use for delete) |
+| `data.file_name` | string | Stored file name |
+| `data.original_name` | string | Original file name |
+| `data.file_size` | number | File size in bytes |
+| `data.mime_type` | string | MIME type (e.g., `image/jpeg`) |
+| `data.file_url` | string | Public URL — use as `image_urls` input |
+| `data.download_url` | string | Direct download URL |
+| `data.upload_time` | string | Upload timestamp |
+| `data.expires_at` | string | Expiration timestamp |
+
+### delete_file
+
+**Endpoint:** `DELETE /api/v1/files/{file_id}`
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `file_id` | string | Yes | File ID to delete |
+
+### list_files
+
+**Endpoints:** `GET /api/v1/files/list` + `GET /api/v1/files/quota` (called together)
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `page` | integer | No | Page number (default: 1) |
+| `page_size` | integer | No | Files per page (default: 20, max: 100) |
+
+### File API Constraints
+
+- **Supported formats:**
+  - Images: JPEG, PNG, GIF, WebP (only these 4 types)
+  - Audio: all formats (`audio/*`) — MP3, WAV, FLAC, AAC, OGG, M4A, etc.
+  - Video: all formats (`video/*`) — MP4, MOV, AVI, MKV, WebM, FLV, etc.
+- **Max file size:** 100MB
+- **File expiry:** 72 hours from upload (auto-deleted)
+- **File quota:** 100 files (default) / 500 files (VIP)
+- **Same-name override:** Uploading a file with an existing name overwrites the old file (may have cache delay)
+- **1 file per request**
+
+### File API Error Codes
+
+| Code | Description | Resolution |
+|------|-------------|------------|
+| 400 | Bad request | Check parameters |
+| 401 | Unauthorized | Verify API key |
+| 403 | Forbidden | Check account permissions |
+| 404 | File not found | Verify file_id |
+| 40001 | File too large | Compress to under 100MB |
+| 40002 | File type not allowed | Check supported formats |
+| 40003 | Quota exceeded | Delete files with `delete_file` to free quota |
+| 40004 | URL download failed | Verify the source URL is accessible |
+| 500 | Server error | Retry |
+| 50001 | Storage service error | Retry after 1 minute |
+
+---
+
 ## Polling Strategy
 
 ### Recommended Intervals

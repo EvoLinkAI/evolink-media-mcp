@@ -73,7 +73,7 @@ function isRetryable(error: unknown): boolean {
   return false;
 }
 
-async function withRetry<T>(
+export async function withRetry<T>(
   fn: () => Promise<T>,
   retries: number,
   baseDelayMs: number,
@@ -147,3 +147,4 @@ export function formatUsageInfo(usage?: TaskResponse['usage']): string {
   if (!usage?.credits_reserved) return '';
   return `Estimated cost: ${usage.credits_reserved} credits (${usage.billing_rule ?? 'standard'})`;
 }
+
