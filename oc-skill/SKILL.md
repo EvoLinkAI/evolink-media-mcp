@@ -1,7 +1,7 @@
 ---
 name: evolink-media
-description: Generate AI videos, images & music. 60+ models including Sora, Veo 3, Kling, Seedance, GPT Image, Suno v5. One API key.
-version: 1.1.0
+description: AI video, image & music generation. 60+ models — Sora, Veo 3, Kling, Seedance, GPT Image, Suno v5, Hailuo, WAN. Text-to-video, image-to-video, text-to-image, AI music. One API key.
+version: 1.1.3
 metadata:
   openclaw:
     requires:
