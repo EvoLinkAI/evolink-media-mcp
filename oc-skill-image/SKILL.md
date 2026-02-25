@@ -1,7 +1,7 @@
 ---
 name: evolink-image
 description: AI image generation & editing — GPT Image, GPT-4o, Seedream, Qwen, WAN, Gemini. Text-to-image, image-to-image, inpainting. 19 models, one API key.
-version: 1.0.0
+version: 1.1.0
 metadata:
   openclaw:
     requires:
@@ -27,6 +27,9 @@ Get your API key at [evolink.ai](https://evolink.ai) and set `EVOLINK_API_KEY`.
 | Tool | Purpose |
 |------|---------|
 | `generate_image` | Create or edit AI images |
+| `upload_file` | Upload local images for editing or reference workflows |
+| `delete_file` | Remove uploaded files to free quota |
+| `list_files` | View uploaded files and check storage quota |
 | `check_task` | Poll generation progress and get result URLs |
 | `list_models` | Browse available image models |
 | `estimate_cost` | Check model pricing |
@@ -63,8 +66,18 @@ Get your API key at [evolink.ai](https://evolink.ai) and set `EVOLINK_API_KEY`.
 | `image_urls` | string[] | — | Reference images for editing (max 14) |
 | `mask_url` | string | — | PNG mask for inpainting (gpt-4o-image only) |
 
+## File Upload
+
+For image-to-image editing or reference-based generation, upload local files first:
+
+1. Call `upload_file` with `file_path`, `base64_data`, or `file_url` → get `file_url` (synchronous)
+2. Use that `file_url` as `image_urls` or `mask_url` input for `generate_image`
+
+**Supported:** Images (JPEG/PNG/GIF/WebP only). Max **100MB**. Files expire after **72 hours**. Quota: 100 files (default) / 500 (VIP).
+
 ## Workflow
 
-1. Call `generate_image` → get `task_id`
-2. Poll `check_task` every 3–5s until `completed`
-3. Download result URLs (expire in 24h)
+1. Upload reference/mask images if needed (via `upload_file`)
+2. Call `generate_image` → get `task_id`
+3. Poll `check_task` every 3–5s until `completed`
+4. Download result URLs (expire in 24h)

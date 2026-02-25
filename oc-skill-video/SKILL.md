@@ -1,7 +1,7 @@
 ---
 name: evolink-video
 description: AI video generation — Sora, Kling, Veo 3, Seedance, Hailuo, WAN, Grok. Text-to-video, image-to-video, video editing. 37 models, one API key.
-version: 1.0.0
+version: 1.1.0
 metadata:
   openclaw:
     requires:
@@ -27,6 +27,9 @@ Get your API key at [evolink.ai](https://evolink.ai) and set `EVOLINK_API_KEY`.
 | Tool | Purpose |
 |------|---------|
 | `generate_video` | Create AI videos from text or images |
+| `upload_file` | Upload local image/video for i2v or editing workflows |
+| `delete_file` | Remove uploaded files to free quota |
+| `list_files` | View uploaded files and check storage quota |
 | `check_task` | Poll generation progress and get result URLs |
 | `list_models` | Browse available video models |
 | `estimate_cost` | Check model pricing |
@@ -66,8 +69,18 @@ Get your API key at [evolink.ai](https://evolink.ai) and set `EVOLINK_API_KEY`.
 | `image_urls` | string[] | — | Reference images for i2v |
 | `generate_audio` | boolean | model default | Auto-generate audio (seedance-1.5-pro, veo3.1-pro) |
 
+## File Upload
+
+For image-to-video or video editing, upload local files first:
+
+1. Call `upload_file` with `file_path`, `base64_data`, or `file_url` → get `file_url` (synchronous)
+2. Use that `file_url` as `image_urls` input for `generate_video`
+
+**Supported:** Images (JPEG/PNG/GIF/WebP), Video (all formats). Max **100MB**. Files expire after **72 hours**. Quota: 100 files (default) / 500 (VIP).
+
 ## Workflow
 
-1. Call `generate_video` → get `task_id`
-2. Poll `check_task` every 10–15s until `completed`
-3. Download result URLs (expire in 24h)
+1. Upload reference images/video if needed (via `upload_file`)
+2. Call `generate_video` → get `task_id`
+3. Poll `check_task` every 10–15s until `completed`
+4. Download result URLs (expire in 24h)

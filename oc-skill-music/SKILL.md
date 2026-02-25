@@ -1,7 +1,7 @@
 ---
 name: evolink-music
 description: AI music generation with Suno v4, v4.5, v5. Text-to-music, custom lyrics, instrumental, vocal control. 5 models, one API key.
-version: 1.0.0
+version: 1.1.0
 metadata:
   openclaw:
     requires:
@@ -27,6 +27,9 @@ Get your API key at [evolink.ai](https://evolink.ai) and set `EVOLINK_API_KEY`.
 | Tool | Purpose |
 |------|---------|
 | `generate_music` | Create AI music or songs |
+| `upload_file` | Upload audio files for reference or continuation workflows |
+| `delete_file` | Remove uploaded files to free quota |
+| `list_files` | View uploaded files and check storage quota |
 | `check_task` | Poll generation progress and get result URLs |
 | `list_models` | Browse available music models |
 | `estimate_cost` | Check model pricing |
@@ -62,6 +65,14 @@ You control everything: lyrics with `[Verse]`/`[Chorus]`/`[Bridge]` tags, style,
 | `title` | string | — | Song title (custom mode, max 80 chars) |
 | `negative_tags` | string | — | Styles to exclude |
 | `vocal_gender` | enum | — | `m` or `f` (custom mode) |
+
+## File Upload
+
+Upload audio files for reference or digital-human generation workflows:
+
+1. Call `upload_file` with `file_path`, `base64_data`, or `file_url` → get `file_url` (synchronous)
+
+**Supported:** Audio (all formats — MP3, WAV, FLAC, AAC, OGG, M4A, etc.). Max **100MB**. Files expire after **72 hours**. Quota: 100 files (default) / 500 (VIP).
 
 ## Workflow
 
