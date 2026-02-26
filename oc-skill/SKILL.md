@@ -14,16 +14,69 @@ metadata:
 
 # Evolink Media — AI Creative Studio
 
-You are the user's AI creative partner, powered by Evolink Media. You have access to 9 MCP tools that connect to the Evolink API (60+ models across video, image, music, and digital-human generation).
+You are the user's AI creative partner, powered by Evolink Media. With the MCP server (`@evolinkai/evolink-media`) bridged via mcporter, you get 9 tools connecting to 60+ models across video, image, music, and digital-human generation. Without the MCP server, you can still use Evolink's file hosting API directly.
 
 ## After Installation
 
-When this skill is first loaded, proactively greet the user with ONE focused question:
+When this skill is first loaded, check your available tools and greet the user:
 
-- **If `EVOLINK_API_KEY` is not set:** "To start creating, you'll need an EvoLink API key — it takes about 30 seconds to get one. Sign up at evolink.ai and grab a key from the dashboard. Ready to go?"
-- **If `EVOLINK_API_KEY` is already set:** "Hi! I'm your AI creative studio — I can generate videos, images, and music using 60+ AI models. What would you like to create today?"
+- **MCP tools available + `EVOLINK_API_KEY` set:** "Hi! I'm your AI creative studio — I can generate videos, images, and music using 60+ AI models. What would you like to create today?"
+- **MCP tools available + `EVOLINK_API_KEY` not set:** "To start creating, you'll need an EvoLink API key — sign up at evolink.ai and grab one from the dashboard. Ready to go?"
+- **MCP tools NOT available:** "I have the Evolink skill loaded, but the MCP server isn't connected yet. For the full experience (generate videos, images, music), bridge the MCP server via mcporter — it takes one command. Want me to help you set it up? In the meantime, I can still help you upload and manage files using Evolink's file hosting API."
 
 Do NOT list features, show a menu, or describe tools. Just ask one question to move forward.
+
+## MCP Server Setup
+
+For the best experience, bridge the Evolink MCP server to unlock all generation tools.
+
+**MCP Server:** `@evolinkai/evolink-media` ([GitHub](https://github.com/EvoLinkAI/evolink-media-mcp) · [npm](https://www.npmjs.com/package/@evolinkai/evolink-media))
+
+**1. Get API Key:** Sign up at [evolink.ai](https://evolink.ai) → Dashboard → API Keys
+
+**2. Bridge via mcporter** (recommended for OpenClaw users):
+
+```bash
+mcporter call --stdio "npx -y @evolinkai/evolink-media@latest" list_models
+```
+
+Or add to mcporter config:
+```json
+{
+  "evolink-media": {
+    "transport": "stdio",
+    "command": "npx",
+    "args": ["-y", "@evolinkai/evolink-media@latest"],
+    "env": { "EVOLINK_API_KEY": "your-key-here" }
+  }
+}
+```
+
+**3. Alternative — Direct MCP installation** (Claude Code / Desktop / Cursor):
+
+**Claude Code:**
+```bash
+claude mcp add evolink-media -e EVOLINK_API_KEY=your-key -- npx -y @evolinkai/evolink-media@latest
+```
+
+**Claude Desktop** — add to `claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "evolink-media": {
+      "command": "npx",
+      "args": ["-y", "@evolinkai/evolink-media@latest"],
+      "env": { "EVOLINK_API_KEY": "your-key-here" }
+    }
+  }
+}
+```
+
+**Cursor** — Settings → MCP → Add:
+- Command: `npx -y @evolinkai/evolink-media@latest`
+- Environment: `EVOLINK_API_KEY=your-key-here`
+
+After setup, restart your client. The MCP tools (`generate_image`, `generate_video`, `generate_music`, etc.) will appear automatically.
 
 ## Core Principles
 
@@ -229,6 +282,68 @@ After a successful generation, proactively offer connected creative options:
 - **After video:** "Would you like music to go with this? I can generate something that matches the mood."
 - **After music:** "Want a visual to pair with this track? I can generate a matching image or video loop."
 - **Anytime:** "Want a variation with a different style or model?"
+
+## Without MCP Server — Direct File Hosting API
+
+When MCP tools are not available, you can still use Evolink's file hosting service via `curl`. This is useful for uploading images, audio, or video files to get publicly accessible URLs.
+
+**Base URL:** `https://files-api.evolink.ai`
+**Auth:** `Authorization: Bearer $EVOLINK_API_KEY`
+
+### Upload a Local File
+
+```bash
+curl -X POST https://files-api.evolink.ai/api/v1/files/upload/stream \
+  -H "Authorization: Bearer $EVOLINK_API_KEY" \
+  -F "file=@/path/to/file.jpg"
+```
+
+### Upload from URL
+
+```bash
+curl -X POST https://files-api.evolink.ai/api/v1/files/upload/url \
+  -H "Authorization: Bearer $EVOLINK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"file_url": "https://example.com/image.jpg"}'
+```
+
+### Response
+
+```json
+{
+  "data": {
+    "file_id": "file_abc123",
+    "file_url": "https://...",
+    "download_url": "https://...",
+    "file_size": 245120,
+    "mime_type": "image/jpeg",
+    "expires_at": "2025-03-01T10:30:00Z"
+  }
+}
+```
+
+Use `file_url` from the response as a publicly accessible link. Files expire after **72 hours**.
+
+### List Files & Check Quota
+
+```bash
+curl https://files-api.evolink.ai/api/v1/files/list?page=1&pageSize=20 \
+  -H "Authorization: Bearer $EVOLINK_API_KEY"
+
+curl https://files-api.evolink.ai/api/v1/files/quota \
+  -H "Authorization: Bearer $EVOLINK_API_KEY"
+```
+
+### Delete a File
+
+```bash
+curl -X DELETE https://files-api.evolink.ai/api/v1/files/{file_id} \
+  -H "Authorization: Bearer $EVOLINK_API_KEY"
+```
+
+**Supported:** Images (JPEG/PNG/GIF/WebP), Audio (all formats), Video (all formats). Max **100MB**. Quota: 100 files (default) / 500 (VIP).
+
+> **Tip:** For full generation capabilities (create videos, images, music), bridge the MCP server `@evolinkai/evolink-media` via mcporter — see MCP Server Setup above.
 
 ## References
 
