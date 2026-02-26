@@ -22,6 +22,29 @@ Generate and edit AI images with 19 models including GPT Image 1.5, GPT-4o Image
 
 Get your API key at [evolink.ai](https://evolink.ai) and set `EVOLINK_API_KEY`.
 
+### Bridge MCP Server (recommended)
+
+For the full tool experience, bridge the MCP server `@evolinkai/evolink-media` ([npm](https://www.npmjs.com/package/@evolinkai/evolink-media)):
+
+**Via mcporter:**
+```bash
+mcporter call --stdio "npx -y @evolinkai/evolink-media@latest" list_models
+```
+
+**Or add to mcporter config:**
+```json
+{
+  "evolink-media": {
+    "transport": "stdio",
+    "command": "npx",
+    "args": ["-y", "@evolinkai/evolink-media@latest"],
+    "env": { "EVOLINK_API_KEY": "your-key-here" }
+  }
+}
+```
+
+**Direct install** (Claude Code): `claude mcp add evolink-media -e EVOLINK_API_KEY=your-key -- npx -y @evolinkai/evolink-media@latest`
+
 ## MCP Tools
 
 | Tool | Purpose |
@@ -81,3 +104,24 @@ For image-to-image editing or reference-based generation, upload local files fir
 2. Call `generate_image` → get `task_id`
 3. Poll `check_task` every 3–5s until `completed`
 4. Download result URLs (expire in 24h)
+
+## Without MCP Server — Direct File Hosting
+
+When MCP tools are not available, you can still upload images to Evolink's hosting via `curl`:
+
+```bash
+# Upload local file
+curl -X POST https://files-api.evolink.ai/api/v1/files/upload/stream \
+  -H "Authorization: Bearer $EVOLINK_API_KEY" \
+  -F "file=@/path/to/image.jpg"
+
+# Upload from URL
+curl -X POST https://files-api.evolink.ai/api/v1/files/upload/url \
+  -H "Authorization: Bearer $EVOLINK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"file_url": "https://example.com/image.jpg"}'
+```
+
+Response returns `file_url` (public link, expires in 72h). Supported: Images (JPEG/PNG/GIF/WebP only). Max **100MB**.
+
+> For full image generation, bridge the MCP server `@evolinkai/evolink-media` — see Setup above.
