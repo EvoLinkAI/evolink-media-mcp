@@ -243,11 +243,12 @@ Music has two required fields — always collect both before calling `generate_m
 | `sora-2` [BETA] | Cinematic, prompt adherence | t2v, i2v, 1080p | — |
 | `veo3.1-pro` [BETA] | Top quality + audio | t2v, 1080p | auto |
 
-### Image Models (19 total — showing key picks)
+### Image Models (20 total — showing key picks)
 
 | Model | Best for | Speed |
 |-------|----------|-------|
 | `gpt-image-1.5` *(default)* | Latest OpenAI generation | Medium |
+| `gemini-3.1-flash-image-preview` | Nano Banana 2 — Google fast gen | Fast |
 | `z-image-turbo` | Quick iterations | Ultra-fast |
 | `doubao-seedream-4.5` | Photorealistic | Medium |
 | `qwen-image-edit` | Instruction-based editing | Medium |

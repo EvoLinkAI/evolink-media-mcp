@@ -1,7 +1,7 @@
 ---
-name: evolink-image
-description: AI image generation & editing — GPT Image, GPT-4o, Nano Banana 2, Seedream, Qwen, WAN, Gemini. Text-to-image, image-to-image, inpainting. 20 models, one API key.
-version: 1.4.0
+name: evolink-nano-banana-2
+description: Nano Banana 2 — AI image generation powered by Google Gemini 3.1 Flash. Fast, versatile text-to-image and image editing via Evolink API. One API key.
+version: 1.0.0
 user-invocable: true
 metadata:
   openclaw:
@@ -10,21 +10,21 @@ metadata:
         - EVOLINK_API_KEY
     primaryEnv: EVOLINK_API_KEY
     os: ["macos", "linux", "windows"]
-    emoji: 🖼️
+    emoji: "\U0001F34C"
     homepage: https://evolink.ai
 ---
 
-# Evolink Image — AI Image Generation & Editing
+# Nano Banana 2 — AI Image Generation
 
-Generate and edit AI images with 20 models including GPT Image 1.5, GPT-4o Image, Nano Banana 2, Seedream, Qwen, WAN, and Gemini — all through one API.
+Generate AI images with Nano Banana 2 (`gemini-3.1-flash-image-preview`) — Google's Gemini 3.1 Flash image model, available through Evolink's unified API.
 
-> Image-focused view of [evolink-media](https://clawhub.ai/EvoLinkAI/evolink-media). Install the full skill for video and music too.
+> Focused view of [evolink-image](https://clawhub.ai/EvoLinkAI/evolink-image). Install the full skill for 20 image models, video, and music.
 
 ## After Installation
 
 When this skill is first loaded, greet the user:
 
-- **MCP tools + API key ready:** "Hi! I'm your AI image studio — 20 models ready. What would you like to create?"
+- **MCP tools + API key ready:** "Hi! Nano Banana 2 is ready — Google's fast image model at your fingertips. What would you like to create?"
 - **MCP tools + no API key:** "You'll need an EvoLink API key — sign up at evolink.ai. Ready to go?"
 - **No MCP tools:** "MCP server isn't connected yet. Want me to help set it up? I can still manage files via the hosting API."
 
@@ -76,27 +76,37 @@ Get your API key at [evolink.ai](https://evolink.ai) → Dashboard → API Keys.
 
 **Important:** `generate_image` returns a `task_id`. Always poll `check_task` until `status` is `"completed"` or `"failed"`.
 
-## Image Models (20)
+## Nano Banana 2
 
-### Top Picks
+| Property | Value |
+|----------|-------|
+| Model ID | `gemini-3.1-flash-image-preview` |
+| Provider | Google (Gemini 3.1 Flash) |
+| Status | Stable |
+| Capability | text-to-image, image-editing |
+| Speed | Fast |
+| Best for | Quick, versatile image generation with strong prompt understanding |
+
+**Why Nano Banana 2?**
+
+- **Google's latest** — Built on Gemini 3.1 Flash, the newest generation architecture
+- **Fast generation** — Optimized for speed without sacrificing quality
+- **Versatile** — General-purpose image creation for any creative need
+- **Strong prompt adherence** — Excellent at following complex, detailed descriptions
+
+### Lite Variant
+
+`nano-banana-2-lite` [BETA] — Lightweight version for ultra-fast iterations when speed is the top priority.
+
+### Alternative Models
 
 | Model | Best for | Speed |
 |-------|----------|-------|
 | `gpt-image-1.5` *(default)* | Latest OpenAI generation | Medium |
-| `gemini-3.1-flash-image-preview` | Nano Banana 2 — Google's fast generation | Fast |
+| `gpt-4o-image` [BETA] | Best quality, complex editing | Medium |
 | `z-image-turbo` | Quick iterations | Ultra-fast |
 | `doubao-seedream-4.5` | Photorealistic | Medium |
-| `qwen-image-edit` | Instruction-based editing | Medium |
-| `gpt-4o-image` [BETA] | Best quality, complex editing | Medium |
-| `gemini-3-pro-image-preview` | Google generation preview | Medium |
-
-### All Stable (16)
-
-`gpt-image-1.5`, `gpt-image-1`, `gemini-3.1-flash-image-preview`, `gemini-3-pro-image-preview`, `z-image-turbo`, `doubao-seedream-4.5`, `doubao-seedream-4.0`, `doubao-seedream-3.0-t2i`, `doubao-seededit-4.0-i2i`, `doubao-seededit-3.0-i2i`, `qwen-image-edit`, `qwen-image-edit-plus`, `wan2.5-t2i-preview`, `wan2.5-i2i-preview`, `wan2.5-text-to-image`, `wan2.5-image-to-image`
-
-### All Beta (4)
-
-`gpt-image-1.5-lite`, `gpt-4o-image`, `gemini-2.5-flash-image`, `nano-banana-2-lite`
+| `gemini-3-pro-image-preview` | Google Pro generation | Medium |
 
 ## Generation Flow
 
@@ -108,7 +118,7 @@ If `401` occurs: "Your API key isn't working. Check at evolink.ai/dashboard/keys
 
 For image editing or reference workflows:
 1. `upload_file` with `file_path`, `base64_data`, or `file_url` → get `file_url` (sync)
-2. Use `file_url` as `image_urls` or `mask_url` for `generate_image`
+2. Use `file_url` as `image_urls` for `generate_image`
 
 Supported: JPEG/PNG/GIF/WebP. Max 100MB. Expire in 72h. Quota: 100 (default) / 500 (VIP).
 
@@ -121,20 +131,19 @@ Ask only what's needed, when it's needed.
 
 ### Step 4: Gather Parameters
 
-Only ask about what's missing:
+Default to `model: "gemini-3.1-flash-image-preview"` for this skill. Only ask about what's missing:
 
 | Parameter | Ask when | Notes |
 |-----------|----------|-------|
 | **prompt** | Always | What they want to see |
-| **model** | Quality matters | Default `gpt-image-1.5`. `gpt-4o-image` for best, `z-image-turbo` for speed |
-| **size** | Orientation needed | GPT models: `1024x1024`/`1024x1536`/`1536x1024`. Others: `1:1`/`16:9`/`9:16` etc. |
+| **model** | User wants alternatives | Default: `gemini-3.1-flash-image-preview`. Suggest `gpt-4o-image` for best quality |
+| **size** | Orientation needed | Ratio format: `1:1`, `16:9`, `9:16`, `2:3`, `3:2`, `4:3`, `3:4` etc. |
 | **n** | Wants variations | 1–4 images |
 | **image_urls** | Edit/reference images | Up to 14 URLs; triggers i2i mode |
-| **mask_url** | Partial edit | PNG mask; `gpt-4o-image` only |
 
 ### Step 5: Generate & Poll
 
-1. Call `generate_image` → tell user: *"Generating now — ~Xs estimated."*
+1. Call `generate_image` with `model: "gemini-3.1-flash-image-preview"` → tell user: *"Generating with Nano Banana 2 — ~Xs estimated."*
 2. Poll `check_task` every **3–5s**. Report progress %.
 3. After 3 consecutive `processing`: *"Still working..."*
 4. **Completed:** Share URLs. *"Links expire in 24h — save promptly."*
@@ -158,11 +167,8 @@ Only ask about what's missing:
 |------|--------|--------|
 | `content_policy_violation` | No | Revise prompt (no celebrities, NSFW, violence) |
 | `invalid_parameters` | No | Check values against model limits |
-| `image_dimension_mismatch` | No | Resize image to match aspect ratio |
 | `image_processing_error` | No | Check format/size/URL accessibility |
 | `generation_timeout` | Yes | Retry; simplify prompt if repeated |
-| `quota_exceeded` | Yes | Top up credits |
-| `resource_exhausted` | Yes | Wait 30–60s, retry |
 | `service_error` | Yes | Retry after 1 min |
 | `generation_failed_no_content` | Yes | Modify prompt, retry |
 
@@ -174,5 +180,5 @@ Use Evolink's file hosting API for image uploads (72h expiry). See `references/f
 
 ## References
 
-- `references/image-api-params.md` — Complete API parameters, all 19 models, polling strategy, error codes
+- `references/image-api-params.md` — Complete API parameters, model details, polling strategy, error codes
 - `references/file-api.md` — File hosting API (curl upload/list/delete)

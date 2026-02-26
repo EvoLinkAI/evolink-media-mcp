@@ -23,7 +23,7 @@ Complete API parameter reference for image generation tools.
 | `image_urls` | string[] | No | — | Reference image URLs for image-to-image or editing. Max 14 images. JPEG/PNG/WebP, ≤4MB each. |
 | `mask_url` | string | No | — | PNG mask URL for partial inpainting. Only supported by `gpt-4o-image`. White areas = edit, black areas = keep. |
 
-### Image Models (19)
+### Image Models (20)
 
 #### Stable
 
@@ -31,6 +31,7 @@ Complete API parameter reference for image generation tools.
 |-------|-------------|----------------|
 | `gpt-image-1.5` *(default)* | OpenAI GPT Image 1.5 — latest generation | text-to-image, image-editing |
 | `gpt-image-1` | OpenAI GPT Image 1 — high-quality generation | text-to-image, image-editing |
+| `gemini-3.1-flash-image-preview` | Nano Banana 2 — Google Gemini 3.1 Flash | text-to-image, image-editing, fast |
 | `gemini-3-pro-image-preview` | Google Gemini 3 Pro — image generation preview | text-to-image |
 | `z-image-turbo` | Z-Image Turbo — fastest generation | text-to-image, ultra-fast |
 | `doubao-seedream-4.5` | ByteDance Seedream 4.5 — photorealistic | text-to-image, photorealistic |

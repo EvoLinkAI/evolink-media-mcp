@@ -69,6 +69,7 @@ export const MODELS: ModelInfo[] = [
   // -- Stable --
   img('gpt-image-1.5', false, 'OpenAI GPT Image 1.5 — latest image generation', ['text-to-image', 'image-editing']),
   img('gpt-image-1', false, 'OpenAI GPT Image 1 — high-quality generation', ['text-to-image', 'image-editing']),
+  img('gemini-3.1-flash-image-preview', false, 'Nano Banana 2 — Google Gemini 3.1 Flash image generation', ['text-to-image', 'image-editing', 'fast']),
   img('gemini-3-pro-image-preview', false, 'Google Gemini 3 Pro — image generation preview', ['text-to-image']),
   img('z-image-turbo', false, 'Z-Image Turbo — fastest generation, ideal for iterations', ['text-to-image', 'ultra-fast']),
   img('doubao-seedream-4.5', false, 'ByteDance Seedream 4.5 — photorealistic generation', ['text-to-image', 'photorealistic']),
