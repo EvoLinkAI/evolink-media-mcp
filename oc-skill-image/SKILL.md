@@ -1,7 +1,7 @@
 ---
 name: evolink-image
 description: AI image generation & editing — GPT Image, GPT-4o, Seedream, Qwen, WAN, Gemini. Text-to-image, image-to-image, inpainting. 19 models, one API key.
-version: 1.3.1
+version: 1.3.2
 user-invocable: true
 metadata:
   openclaw:
@@ -28,7 +28,7 @@ When this skill is first loaded, greet the user:
 - **MCP tools + no API key:** "You'll need an EvoLink API key — sign up at evolink.ai. Ready to go?"
 - **No MCP tools:** "MCP server isn't connected yet. Want me to help set it up? I can still manage files via the hosting API."
 
-Do NOT list features or describe tools. Ask one question to move forward.
+Keep the greeting concise — just one question to move forward.
 
 ## External Endpoints
 
@@ -40,7 +40,7 @@ Do NOT list features or describe tools. Ask one question to move forward.
 
 ## Security & Privacy
 
-- **`EVOLINK_API_KEY`** authenticates all requests. Injected by OpenClaw — never expose or log it.
+- **`EVOLINK_API_KEY`** authenticates all requests. Injected by OpenClaw automatically. Treat as confidential.
 - Prompts and images are sent to `api.evolink.ai`. Uploaded files expire in **72h**, result URLs in **24h**.
 
 ## Setup
@@ -74,7 +74,7 @@ Get your API key at [evolink.ai](https://evolink.ai) → Dashboard → API Keys.
 | `list_models` | Compare available models | Model list |
 | `estimate_cost` | Check pricing | Model info |
 
-**Critical:** `generate_image` returns a `task_id`. You MUST poll `check_task` until `status` is `"completed"` or `"failed"`.
+**Important:** `generate_image` returns a `task_id`. Always poll `check_task` until `status` is `"completed"` or `"failed"`.
 
 ## Image Models (19)
 
@@ -116,7 +116,7 @@ Supported: JPEG/PNG/GIF/WebP. Max 100MB. Expire in 72h. Quota: 100 (default) / 5
 - **Clear** ("generate a sunset") → Go to Step 4
 - **Ambiguous** ("help with this image") → Ask: "Create new, edit existing, or use as reference?"
 
-Do NOT ask all parameters upfront.
+Ask only what's needed, when it's needed.
 
 ### Step 4: Gather Parameters
 
