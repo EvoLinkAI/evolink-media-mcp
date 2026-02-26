@@ -1,7 +1,7 @@
 ---
 name: evolink-image
 description: AI image generation & editing — GPT Image, GPT-4o, Seedream, Qwen, WAN, Gemini. Text-to-image, image-to-image, inpainting. 19 models, one API key.
-version: 1.1.0
+version: 1.2.1
 metadata:
   openclaw:
     requires:
@@ -105,23 +105,6 @@ For image-to-image editing or reference-based generation, upload local files fir
 3. Poll `check_task` every 3–5s until `completed`
 4. Download result URLs (expire in 24h)
 
-## Without MCP Server — Direct File Hosting
+## Without MCP Server
 
-When MCP tools are not available, you can still upload images to Evolink's hosting via `curl`:
-
-```bash
-# Upload local file
-curl -X POST https://files-api.evolink.ai/api/v1/files/upload/stream \
-  -H "Authorization: Bearer $EVOLINK_API_KEY" \
-  -F "file=@/path/to/image.jpg"
-
-# Upload from URL
-curl -X POST https://files-api.evolink.ai/api/v1/files/upload/url \
-  -H "Authorization: Bearer $EVOLINK_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"file_url": "https://example.com/image.jpg"}'
-```
-
-Response returns `file_url` (public link, expires in 72h). Supported: Images (JPEG/PNG/GIF/WebP only). Max **100MB**.
-
-> For full image generation, bridge the MCP server `@evolinkai/evolink-media` — see Setup above.
+Without the MCP server, you can still use Evolink's file hosting API to upload images and get public URLs (expires in 72h). See `references/file-api.md` for curl-based upload commands, or bridge the MCP server for the full generation experience.

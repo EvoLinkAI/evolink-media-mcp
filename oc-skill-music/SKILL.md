@@ -104,23 +104,6 @@ Upload audio files for music continuation or remix workflows:
 3. Poll `check_task` every 5–10s until `completed`
 4. Download result URLs (expire in 24h)
 
-## Without MCP Server — Direct File Hosting
+## Without MCP Server
 
-When MCP tools are not available, you can still upload audio files to Evolink's hosting via `curl`:
-
-```bash
-# Upload local file
-curl -X POST https://files-api.evolink.ai/api/v1/files/upload/stream \
-  -H "Authorization: Bearer $EVOLINK_API_KEY" \
-  -F "file=@/path/to/audio.mp3"
-
-# Upload from URL
-curl -X POST https://files-api.evolink.ai/api/v1/files/upload/url \
-  -H "Authorization: Bearer $EVOLINK_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"file_url": "https://example.com/track.mp3"}'
-```
-
-Response returns `file_url` (public link, expires in 72h). Supported: Audio (MP3, WAV, FLAC, AAC, OGG, M4A, etc.). Max **100MB**.
-
-> For full music generation, bridge the MCP server `@evolinkai/evolink-media` — see Setup above.
+Without the MCP server, you can still use Evolink's file hosting API to upload audio files and get public URLs (expires in 72h). See `references/file-api.md` for curl-based upload commands, or bridge the MCP server for the full generation experience.
