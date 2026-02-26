@@ -108,7 +108,7 @@ Use `list_models` to see the full catalog. For pricing, visit [evolink.ai/pricin
 | | `@evolinkai/evolink-media` | `@evolinkai/evolink-media-beta` |
 |---|---|---|
 | npm | [![npm](https://img.shields.io/npm/v/@evolinkai/evolink-media)](https://www.npmjs.com/package/@evolinkai/evolink-media) | [![npm](https://img.shields.io/npm/v/@evolinkai/evolink-media-beta)](https://www.npmjs.com/package/@evolinkai/evolink-media-beta) |
-| API Endpoint | api.evolink.ai | beta-api.evolink.ai |
+| API Endpoint | api.evolink.ai | api.evolink.ai |
 | SLA | 99.9% | Best-effort |
 | Best for | Production | Experimentation |
 
