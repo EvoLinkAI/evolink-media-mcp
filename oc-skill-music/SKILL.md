@@ -1,7 +1,7 @@
 ---
 name: evolink-music
 description: AI music generation with Suno v4, v4.5, v5. Text-to-music, custom lyrics, instrumental, vocal control. 5 models, one API key.
-version: 1.1.0
+version: 1.1.2
 metadata:
   openclaw:
     requires:

@@ -1,7 +1,7 @@
 ---
 name: evolink-video
 description: AI video generation — Sora, Kling, Veo 3, Seedance, Hailuo, WAN, Grok. Text-to-video, image-to-video, video editing. 37 models, one API key.
-version: 1.3.0
+version: 1.3.1
 metadata:
   openclaw:
     requires:
