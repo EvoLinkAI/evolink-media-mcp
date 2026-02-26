@@ -1,7 +1,7 @@
 ---
 name: evolink-image
 description: AI image generation & editing — GPT Image, GPT-4o, Seedream, Qwen, WAN, Gemini. Text-to-image, image-to-image, inpainting. 19 models, one API key.
-version: 1.3.2
+version: 1.3.3
 user-invocable: true
 metadata:
   openclaw:
