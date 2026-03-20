@@ -25,7 +25,7 @@ Generate AI images with Nano Banana 2 (`gemini-3.1-flash-image-preview`) — Goo
 When this skill is first loaded, greet the user:
 
 - **MCP tools + API key ready:** "Hi! Nano Banana 2 is ready — Google's fast image model at your fingertips. What would you like to create?"
-- **MCP tools + no API key:** "You'll need an EvoLink API key — sign up at evolink.ai/signup. Ready to go?"
+- **MCP tools + no API key:** "You'll need an EvoLink API key — sign up at evolink.ai/signup/signup. Ready to go?"
 - **No MCP tools:** "MCP server isn't connected yet. Want me to help set it up? I can still manage files via the hosting API."
 
 Keep the greeting concise — just one question to move forward.
@@ -45,7 +45,7 @@ Keep the greeting concise — just one question to move forward.
 
 ## Setup
 
-Get your API key at [evolink.ai](https://evolink.ai/signup?utm_source=github[evolink.ai](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=evolink-media-mcp)utm_medium=readme[evolink.ai](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=evolink-media-mcp)utm_campaign=evolink-media-mcp) → Dashboard → API Keys.
+Get your API key at [evolink.ai](https://evolink.ai/signup?utm_source=github[evolink.ai](https://evolink.ai/signup?utm_source=github&utm_medium=readme&utm_campaign=evolink-media-mcp)utm_medium=readme[evolink.ai](https://evolink.ai/signup?utm_source=github&utm_medium=readme&utm_campaign=evolink-media-mcp)utm_campaign=evolink-media-mcp) → Dashboard → API Keys.
 
 **MCP Server:** `@evolinkai/evolink-media` ([GitHub](https://github.com/EvoLinkAI/evolink-media-mcp) · [npm](https://www.npmjs.com/package/@evolinkai/evolink-media))
 
