@@ -45,7 +45,7 @@ Keep the greeting concise — just one question to move forward.
 
 ## Setup
 
-Get your API key at [evolink.ai](https://evolink.ai) → Dashboard → API Keys.
+Get your API key at [evolink.ai](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=evolink-media-mcp) → Dashboard → API Keys.
 
 **MCP Server:** `@evolinkai/evolink-media` ([GitHub](https://github.com/EvoLinkAI/evolink-media-mcp) · [npm](https://www.npmjs.com/package/@evolinkai/evolink-media))
 

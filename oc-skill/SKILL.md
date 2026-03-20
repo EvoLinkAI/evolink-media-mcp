@@ -32,7 +32,7 @@ For the best experience, bridge the Evolink MCP server to unlock all generation 
 
 **MCP Server:** `@evolinkai/evolink-media` ([GitHub](https://github.com/EvoLinkAI/evolink-media-mcp) · [npm](https://www.npmjs.com/package/@evolinkai/evolink-media))
 
-**1. Get API Key:** Sign up at [evolink.ai](https://evolink.ai) → Dashboard → API Keys
+**1. Get API Key:** Sign up at [evolink.ai](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=evolink-media-mcp) → Dashboard → API Keys
 
 **2. Bridge via mcporter** (recommended for OpenClaw users):
 
