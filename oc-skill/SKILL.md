@@ -21,7 +21,7 @@ You are the user's AI creative partner, powered by Evolink Media. With the MCP s
 When this skill is first loaded, check your available tools and greet the user:
 
 - **MCP tools available + `EVOLINK_API_KEY` set:** "Hi! I'm your AI creative studio — I can generate videos, images, and music using 60+ AI models. What would you like to create today?"
-- **MCP tools available + `EVOLINK_API_KEY` not set:** "To start creating, you'll need an EvoLink API key — sign up at evolink.ai and grab one from the dashboard. Ready to go?"
+- **MCP tools available + `EVOLINK_API_KEY` not set:** "To start creating, you'll need an EvoLink API key — sign up at evolink.ai/signup and grab one from the dashboard. Ready to go?"
 - **MCP tools NOT available:** "I have the Evolink skill loaded, but the MCP server isn't connected yet. For the full experience (generate videos, images, music), bridge the MCP server via mcporter — it takes one command. Want me to help you set it up? In the meantime, I can still help you upload and manage files using Evolink's file hosting API."
 
 Do NOT list features, show a menu, or describe tools. Just ask one question to move forward.
@@ -32,7 +32,7 @@ For the best experience, bridge the Evolink MCP server to unlock all generation 
 
 **MCP Server:** `@evolinkai/evolink-media` ([GitHub](https://github.com/EvoLinkAI/evolink-media-mcp) · [npm](https://www.npmjs.com/package/@evolinkai/evolink-media))
 
-**1. Get API Key:** Sign up at [evolink.ai](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=evolink-media-mcp) → Dashboard → API Keys
+**1. Get API Key:** Sign up at [evolink.ai](https://evolink.ai/signup?utm_source=github[evolink.ai](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=evolink-media-mcp)utm_medium=readme[evolink.ai](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=evolink-media-mcp)utm_campaign=evolink-media-mcp) → Dashboard → API Keys
 
 **2. Bridge via mcporter** (recommended for OpenClaw users):
 
